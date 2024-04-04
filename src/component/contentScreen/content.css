@@ -1,0 +1,86 @@
+.custom-calendar {
+  margin: auto;
+  width: fit-content;
+}
+
+.custom-calendar .rmdp-wrapper {
+  box-shadow: none;
+}
+
+.custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-header .rmdp-header-values {
+  margin-left: initial;
+}
+
+.custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width: 1069px) {
+  .custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+    gap: 22px;
+    margin-bottom: 22px;
+  }
+}
+
+@media screen and (max-width: 816px) {
+  .custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 613px) {
+  .custom-calendar .rmdp-wrapper .rmdp-calendar .rmdp-day-picker .rmdp-week {
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+input[type="time"] {
+  text-align: center;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
+
+.image-vertical-scroll{
+  scrollbar-width: thin;
+
+}
+
+.image-vertical-scroll::-webkit-scrollbar {
+  width: 10px !important;
+  /* scrollbar-width: thin; */
+}
+
+/* Track */
+.image-vertical-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.image-vertical-scroll::-webkit-scrollbar-thumb {
+  background: #9190908a;
+}
+
+/* Handle on hover */
+.image-vertical-scroll::-webkit-scrollbar-thumb:hover {
+  background: #6b6b6bf1;
+}
