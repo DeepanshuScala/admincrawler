@@ -93,11 +93,11 @@ const Step4 = ({
           variant: "success",
         });
         fetchAllEvents();
-        handleStep(INC)
+        //handleStep(INC)
 
-        setStep4Data(res.data.event);
+        //setStep4Data(res.data.event);
         // handleStep(INC);
-        // handleClose();
+        handleClose();
       } else {
         console.log(res, ">>>>>>");
         enqueueSnackbar(
@@ -456,7 +456,7 @@ const Step4 = ({
               inputClass={"min-w-[140px]"}
               onClick={() => formik.handleSubmit()}
             >
-              <span>Next</span>
+              <span>Done</span>
             </PrimaryButton>
           </div>
         </div>

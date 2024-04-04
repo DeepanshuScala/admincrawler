@@ -140,16 +140,6 @@ const CreateContent = ({
           />
         ) : currentStep === 5 ? (
           <>
-            <Step5
-              handleStep={handleStep}
-              handleClose={handleCloseModel}
-              currentStep={currentStep}
-              id={id}
-              fetchAllEvents={fetchAllEvents}
-              eventData={eventData}
-              fetchEventData={fetchEventData}
-              step4Data={step4Data} 
-            />
           </>
         ) : currentStep === 6 ? (
           <>
