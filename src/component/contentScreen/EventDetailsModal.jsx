@@ -118,7 +118,7 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
             </div>
           </div>
           <div className="">
-            <div className="md:w-1/2 h-[40vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg">
+            <div className="md:w-1/2 pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg">
               <div className="mb-4">
                   {loading ? (
                   <ContentLoader />

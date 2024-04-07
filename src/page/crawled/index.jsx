@@ -179,7 +179,7 @@ const Crawled = () => {
                 color="primary"
                 sx={{
                   '.MuiPaginationItem-page': {
-                    'background-color':'#009CA6', // Change to your desired color
+                    'backgroundColor':'#009CA6', // Change to your desired color
                     '&:hover': {
                       backgroundColor: 'black', // Hover effect for regular items
                       'color': 'white',
@@ -187,9 +187,9 @@ const Crawled = () => {
                   },
                   '.Mui-selected': {
                     'color': 'white', // Active pagination number color
-                    'background-color':'black',
+                    'backgroundColor':'black !important',
                     '&:hover': {
-                      backgroundColor: '#009CA6', // Hover effect for regular items
+                      'backgroundColor': '#009CA6', // Hover effect for regular items
                     },
                   },
                 }}
