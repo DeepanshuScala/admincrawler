@@ -52,7 +52,7 @@ const Login = () => {
       // axiosInstance.defaults.headers.common[
       //   "Authorization"
       // ] = `Bearer ${response?.data?.tokens[0]?.businessToken}`;
-      navigate("/dashboard");
+      window.location.href = '/dashboard';
     } catch (err) {
       console.log(err, "...... err");
       enqueueSnackbar(

@@ -15,13 +15,14 @@ const AddTimeWidget = ({
   // console.log(dates?.[Object.keys(dates)[0]], "1233454312345432");
 
   const getValue = (key, index) => {
+    console.log(key, index)
     if (multipleTime) {
       return dates?.[checkDate]?.[index][key];
     } else {
       return dates?.[Object.keys(dates)[0]][index][key];
     }
   };
-
+console.log(dates)
   return (
     <div className="mb-3">
       <div

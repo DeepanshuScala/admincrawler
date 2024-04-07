@@ -109,13 +109,27 @@ const Step2 = ({
 
   const handleSubmit = async () => {
     setLoading(true);
-    
-    const data = Object.keys(dates).map((date) => {
-      return {
-        date,
-        durations: dates[date],
-      };
-    });
+
+    const transformDates = (dates) => {
+      return Object.keys(dates).map((date) => {
+        return {
+          date: new Date(Date.UTC(2024, parseInt(date.split("-")[1]) - 1, parseInt(date.split("-")[0]))),
+          durations: dates[date].map((duration) => {
+            const [startHour, startMinute] = duration.startTime.split(":");
+            const [endHour, endMinute] = duration.endTime.split(":");
+            const startDate = new Date(Date.UTC(2024, parseInt(date.split("-")[1]) - 1, parseInt(date.split("-")[0]), startHour, startMinute));
+            const endDate = new Date(Date.UTC(2024, parseInt(date.split("-")[1]) - 1, parseInt(date.split("-")[0]), endHour, endMinute));
+
+            return {
+              startTime: startDate.toISOString(),
+              endTime: endDate.toISOString()
+            };
+          }),
+        };
+      });
+    };
+
+    const data = transformDates(dates);
 
     const res = await postData(`event/crawled/edit/${id}`, {
       schedule: data,
@@ -181,9 +195,9 @@ const Step2 = ({
 
             </div>
             <div className="w-1/2 flex-grow">
-              <PrimarySwitch className=""
+              <PrimarySwitch className="" checked={multipleTime}
                 onChange={(value) => {
-                  setMultipleTime(value);
+                  setMultipleTime(value.target.checked);
                 }}
                 labelText="Specify for each day"
               />

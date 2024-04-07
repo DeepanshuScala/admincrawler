@@ -94,6 +94,7 @@ const Step1 = ({
     // getKeywords();
   }, []);
 
+
   const validationSchema = Yup.object().shape({
     type: Yup.string().required("Type is required."),
     title: Yup.string().required("Title is required."),
