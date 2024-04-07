@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "../image";
 import DataTable, { createTheme } from 'react-data-table-component';
 import Pagination from '@mui/material/Pagination';
@@ -13,13 +13,28 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
   const [selectedRows, setSelectedRows] = useState([]);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState('');
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isEventDetailsModalOpen, setIsEventDetailsModalOpen] = useState(false);
 
   const handleCloseEventDetailsModal = () => {
     setIsEventDetailsModalOpen(false);
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleChangeItemsPerPage = (event) => {
+    setItemsPerPage(event.target.value);
+    setCurrentPage(1); // Reset to first page after changing items per page
+  };
+
+  const pageCount = Math.ceil(data.length / itemsPerPage);
 
   const columns = [
     {
@@ -39,23 +54,6 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
       </>,
       minWidth: '150px',
       maxWidth: '360px',
-    },
-    {
-      name: 'Action',
-      sortable: true,
-      selector: row => <>
-        <div className="flex items-center gap-1">
-          <Editicon color="text-white"
-            onClick={() => setEventId(row)}
-            className="cursor-pointer p-1.5 rounded-xl w-[30px] h-[30px] text-white bg-[#74746E]"
-          />
-          <Deleteicon
-            onClick={() => deleteEvent(row._id)}
-            className="cursor-pointer p-1.5 rounded-xl w-[30px] h-[30px] text-white bg-red-500"
-          />
-        </div>
-      </>,
-      width: '120px',
     },
     {
       name: 'Dates',
@@ -145,14 +143,8 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
       console.log('Selected Rows:', selectedRows);
     }
   }
-
-
   return (
     <div class="md:mx-10 mx-5">
-      <PrimaryButton
-            inputClass="max-w-[150px] bg-[#03B4BF] text-white font-bold" onClick={handlepublish} >
-            <span>Publish Event</span>
-      </PrimaryButton>
       <DataTable theme="solarized" columns={columns} data={data} customStyles={customStyles} onSelectedRowsChange={handleRowSelected} selectableRows />
       <EventDetailsModal
         fetchAllEvents={fetchAllEvents}

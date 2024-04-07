@@ -4,6 +4,7 @@ import { getData,postData } from '../../utils/api'; // Assuming getData is your 
 import PrimaryButton from '../../common/FormElements/Button/PrimaryButton';
 import { enqueueSnackbar } from 'notistack';
 import { formatErrorMessage } from '../../utils/formatErrorMessage';
+import ContentLoader from '../../common/Loader/contentLoader';
 
 const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
   const [apiData, setApiData] = useState([]);
@@ -101,7 +102,7 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <div className="md:w-1/2 w-full h-[60vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg h-[90vh]  w-[380px] sm:w-[500px] md:w-[600px] lg:w-[600px] xl:w-[600px]">
+      <div className="md:w-1/2 h-[50vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg h-[90vh]  w-[380px] sm:w-[500px] md:w-[200px] lg:w-[400px]">
         <div className="">
           <div className="">
             <div className="absolute top-0 right-0 pt-4 pr-4">
@@ -117,13 +118,13 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
             </div>
           </div>
           <div className="">
-            <div className="md:w-1/2 w-full h-[40vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg">
+            <div className="md:w-1/2 h-[40vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg">
               <div className="mb-4">
                   {loading ? (
-                  <CircularProgress />
+                  <ContentLoader />
                   ) : (    
                     <>
-                      <select className='secondary-select w-full common-input' value={selectedUserId} onChange={handleChange}>
+                      <select className='secondary-select common-input' value={selectedUserId} onChange={handleChange}>
                         <option value=''>Select a user</option>
                           {apiData.map((item) => {
                             if (item.businessProfiles && item.businessProfiles.length > 0) {
@@ -137,7 +138,7 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
                           })}
                       </select>
                       {selectedUserBusinessProfiles.length > 0 && (
-                        <select className='secondary-select w-full common-input mt-2' value={selectedBusinessProfile} onChange={handleBusinessProfileChange}>
+                        <select className='secondary-select w-full common-input mb-2 mt-2' value={selectedBusinessProfile} onChange={handleBusinessProfileChange}>
                           <option value=''>Select a business</option>
                           {selectedUserBusinessProfiles.map((profile) => (
                             <option key={profile._id} value={profile._id}>
@@ -152,6 +153,7 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
                       </PrimaryButton>
                       )}
                     </>
+                  
                   )}
               </div>
             </div>

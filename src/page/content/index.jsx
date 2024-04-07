@@ -16,6 +16,7 @@ import { enqueueSnackbar } from "notistack";
 import { formatErrorMessage } from "../../utils/formatErrorMessage";
 import ContentLoader from "../../common/Loader/contentLoader";
 import { useSearchParams } from "react-router-dom";
+import ListViewpublished from "../../component/contentScreen/ListViewpublished";
 
 const Content = () => {
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ const Content = () => {
   const fetchAllEvents = async (query) => {
     setLoading(true);
     try {
-      const res = await getData("event/created");
+      const res = await getData("event/crawled?status=published");
       if (res.data) {
         const datares = res.data?.events;
         if (!query || query === '') {
@@ -155,7 +156,22 @@ const Content = () => {
             Published Events
           </Text>
         </div>
+        <div className="flex md:justify-end justify-start items-center gap-4 flex-wrap">
+        </div>
       </div>
+      {!loading ? (
+        <>
+            <ListViewpublished
+              loading={loading}
+              data={data}
+              fetchAllEvents={fetchAllEvents}
+              setEventId={setEventId}
+              deleteEvent={deleteEvent}
+            />
+        </>
+      ) : (
+        <ContentLoader />
+      )}
     </>
   );
 };

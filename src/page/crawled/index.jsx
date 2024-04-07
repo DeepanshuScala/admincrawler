@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Text from "../../common/Text";
+import Pagination from '@mui/material/Pagination';
 import {
   Add,
   CalendarMonth,
@@ -21,6 +22,8 @@ const Crawled = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [cardView, SetCardView] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const [data, setData] = useState();
   const [eventId, setEventId] = useState("");
@@ -28,7 +31,7 @@ const Crawled = () => {
   const fetchAllEvents = async (query) => {
     setLoading(true);
     try {
-      const res = await getData("event/crawled");
+      const res = await getData(`event/crawled?page=${currentPage}&limit=${itemsPerPage}`);
       if (res.data) {
         const datares = res.data?.events;
         console.log(datares)
@@ -79,6 +82,14 @@ const Crawled = () => {
     });
   };
 
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleChangeItemsPerPage = (event) => {
+    setItemsPerPage(event.target.value);
+    setCurrentPage(1); // Reset to first page after changing items per page
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewSearchQuery, setviewSearchQuery] = useState();
@@ -107,9 +118,8 @@ const Crawled = () => {
   };
 
   useEffect(() => {
-    console.log('efrere')
     fetchAllEvents();
-  }, []);
+  },[currentPage, itemsPerPage]);
 
   useEffect(() => {
     const searchP = searchParams.get("view") || "";
@@ -161,6 +171,30 @@ const Crawled = () => {
               setEventId={setEventId}
               deleteEvent={deleteEvent}
             />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+              <Pagination
+                count={5} // Assuming 'data.total' holds the total count of items
+                page={currentPage}
+                onChange={handleChangePage}
+                color="primary"
+                sx={{
+                  '.MuiPaginationItem-page': {
+                    'background-color':'#009CA6', // Change to your desired color
+                    '&:hover': {
+                      backgroundColor: 'black', // Hover effect for regular items
+                      'color': 'white',
+                    },
+                  },
+                  '.Mui-selected': {
+                    'color': 'white', // Active pagination number color
+                    'background-color':'black',
+                    '&:hover': {
+                      backgroundColor: '#009CA6', // Hover effect for regular items
+                    },
+                  },
+                }}
+              />
+            </div>
         </>
       ) : (
         <ContentLoader />
