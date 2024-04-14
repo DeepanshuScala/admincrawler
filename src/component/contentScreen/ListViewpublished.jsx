@@ -38,13 +38,6 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
 
   const columns = [
     {
-      name: 'No',
-      selector: (row, index) => <span className="w-full text-center flex items-center justify-center gap-2">{index + 1}</span>,
-      center: true,
-      minWidth: '50px', // Set minimum width
-      maxWidth: '60px',
-    },
-    {
       name: 'Title',
       sortable: true,
       selector: row => <>
@@ -145,7 +138,7 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
   }
   return (
     <div class="md:mx-10 mx-5">
-      <DataTable theme="solarized" columns={columns} data={data} customStyles={customStyles} onSelectedRowsChange={handleRowSelected} selectableRows />
+      <DataTable theme="solarized" columns={columns} data={data} customStyles={customStyles} />
       <EventDetailsModal
         fetchAllEvents={fetchAllEvents}
         open={isEventDetailsModalOpen}

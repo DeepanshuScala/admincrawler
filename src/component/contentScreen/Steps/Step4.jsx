@@ -152,7 +152,7 @@ const Step4 = ({
     <>
       <FormikProvider value={formik}>
         <div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <h1 className="text-black mb-3 font-bold">Target age groups</h1>
             <div className="grid grid-cols-4 gap-2">
               {ageGroups?.map((age) => {
@@ -178,7 +178,7 @@ const Step4 = ({
             <span className="font-semibold text-sm text-red-600">
               <ErrorMessage name="ageGroupsAllowed" />
             </span>
-          </div>
+          </div> */}
 
           <hr className="mb-3 text-[#7C7C72]" />
 
@@ -336,7 +336,7 @@ const Step4 = ({
             </div>
           </div>
 
-          <hr className="mb-3 text-[#7C7C72]" />
+          {/* <hr className="mb-3 text-[#7C7C72]" />
 
           <div className="mb-5">
             <div className="flex items-center justify-between">
@@ -372,7 +372,7 @@ const Step4 = ({
                 </> : null
             }
 
-          </div>
+          </div> */}
 
           <hr className="mb-3 text-[#7C7C72]" />
 

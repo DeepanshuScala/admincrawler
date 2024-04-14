@@ -21,6 +21,7 @@ import AddLocationModal from "./AddLocationModal";
 import { FormControl, MenuItem, Select } from "@mui/base";
 import { InputLabel } from "@mui/material";
 import {GoogleMap, LoadScriptNext, Marker, useGoogleMap} from '@react-google-maps/api';
+import SimpleMap from "../../location/simplemap";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -216,14 +217,15 @@ const Step3 = ({
       </div>
       <span>{eventData.address}</span>
       <LoadScriptNext  googleMapsApiKey={googleMapsApiKey}>
-        <GoogleMap
+        <SimpleMap mapContainerStyle={{ width: '100%', height: '400px' }} googleMapsApiKey={googleMapsApiKey} lat={eventData.coordinates.lat} lng={eventData.coordinates.lng} />
+        {/* <GoogleMap
           mapContainerStyle={{ width: '100%', height: '400px' }}
           center={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
           zoom={10}
         />
         <Marker // Add this Marker component
             position={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
-        />
+        /> */}
       </LoadScriptNext>
       <div className="flex justify-end items-center mt-3 pb-3 gap-2">
         <div>

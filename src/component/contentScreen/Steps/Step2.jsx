@@ -39,8 +39,8 @@ const Step2 = ({
       } else {
         obj[rawDate.format()] = [
           {
-            startTime: "15:00",
-            endTime: "18:00",
+            startTime: "00:00",
+            endTime: "23:05",
           },
         ];
       }

@@ -23,13 +23,6 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
 
   const columns = [
     {
-      name: 'No',
-      selector: (row, index) => <span className="w-full text-center flex items-center justify-center gap-2">{index + 1}</span>,
-      center: true,
-      minWidth: '50px', // Set minimum width
-      maxWidth: '60px',
-    },
-    {
       name: 'Title',
       sortable: true,
       selector: row => <>

@@ -7,6 +7,7 @@ import {
   FilterAlt,
   MenuOutlined,
 } from "@mui/icons-material";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import CardView from "../../component/contentScreen/CardView";
 import CreateContent from "../../component/contentScreen/CreateContent";
 import ContentHeader from "../../component/contentScreen/ContentHeader";
@@ -159,6 +160,7 @@ const Crawled = () => {
   const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
+
   return (
     <>
       <ContentHeader/>
@@ -171,9 +173,9 @@ const Crawled = () => {
               setEventId={setEventId}
               deleteEvent={deleteEvent}
             />
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <div className="mb-5" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', padding: '0 20px' }}>
               <Pagination
-                count={5} // Assuming 'data.total' holds the total count of items
+                count={10} // Assuming 'data.total' holds the total count of items
                 page={currentPage}
                 onChange={handleChangePage}
                 color="primary"
@@ -194,6 +196,19 @@ const Crawled = () => {
                   },
                 }}
               />
+              <FormControl style={{ minWidth: 120 }}>
+              <InputLabel id="items-per-page-label">Items Per Page</InputLabel>
+              <Select
+                labelId="items-per-page-label"
+                value={itemsPerPage}
+                label="Items Per Page"
+                onChange={handleChangeItemsPerPage}
+              >
+                {[10, 20, 30, 50].map((size) => (
+                  <MenuItem key={size} value={size}>{size}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             </div>
         </>
       ) : (

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Select, MenuItem, CircularProgress } from '@mui/material';
-import { getData,postData } from '../../utils/api'; // Assuming getData is your API call function
+import { getData, postData } from '../../utils/api'; // Assuming getData is your API call function
 import PrimaryButton from '../../common/FormElements/Button/PrimaryButton';
 import { enqueueSnackbar } from 'notistack';
 import { formatErrorMessage } from '../../utils/formatErrorMessage';
 import ContentLoader from '../../common/Loader/contentLoader';
-
-const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
+import CloseIcon from "@mui/icons-material/Close";
+const EventDetailsModal = ({ fetchAllEvents, open, handleClose, events }) => {
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState('');
@@ -49,18 +49,18 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
     setSelectedBusinessProfile(event.target.value); // Update the selected business profile state
   };
 
-  const handlepublish = async() => {
+  const handlepublish = async () => {
     setLoading(true);
     try {
       const finaldata = {
-        ids:events.map(event => event._id),
-        user:selectedUserId,
+        ids: events.map(event => event._id),
+        user: selectedUserId,
         businessProfile: selectedBusinessProfile,
       }
-      const res = await postData(`event/crawled/publish`,{
+      const res = await postData(`event/crawled/publish`, {
         ...finaldata
       });
-      if(res.data){
+      if (res.data) {
         enqueueSnackbar(res.data.message ?? "", {
           variant: "success",
         });
@@ -68,9 +68,9 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
           setLoading(false);
           handleClose();
           fetchAllEvents();
-        },1000);
+        }, 1000);
       }
-      else{
+      else {
         setLoading(false);
         enqueueSnackbar(
           res.error?.message
@@ -102,9 +102,19 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <div className="md:w-1/2 h-[50vh] pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg h-[90vh]  w-[380px] sm:w-[500px] md:w-[200px] lg:w-[400px]">
+      <div className="md:w-1/2 min-h-[25vh] px-4 py-2.5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg   w-[380px] sm:w-[500px] lg:w-[400px]">
         <div className="">
-          <div className="">
+
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <p className="text-subtitle font-medium text-[#232323]">
+            Publish Event
+            </p>
+            <CloseIcon className='cursor-pointer' onClick={handleClose} />
+          </div>
+        </div>
+
+          {/* <div className="">
             <div className="absolute top-0 right-0 pt-4 pr-4">
               <button
                 onClick={handleClose}
@@ -112,49 +122,50 @@ const EventDetailsModal = ({fetchAllEvents,open,handleClose,events }) => {
               >
                 <span className="sr-only">Close</span>
                 <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="">
-            <div className="md:w-1/2 pl-5 outline-none bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-none rounded-lg">
+            <div className="w-full bg-white border-none rounded-lg">
               <div className="mb-4">
-                  {loading ? (
+                {loading ? (
                   <ContentLoader />
-                  ) : (    
-                    <>
-                      <select className='secondary-select common-input' value={selectedUserId} onChange={handleChange}>
-                        <option value=''>Select a user</option>
-                          {apiData.map((item) => {
-                            if (item.businessProfiles && item.businessProfiles.length > 0) {
-                              return (
-                                <option key={item._id} value={item._id}>
-                                  {item.name}
-                                </option>
-                              );
-                            }
-                            return null;
-                          })}
-                      </select>
-                      {selectedUserBusinessProfiles.length > 0 && (
-                        <select className='secondary-select w-full common-input mb-2 mt-2' value={selectedBusinessProfile} onChange={handleBusinessProfileChange}>
-                          <option value=''>Select a business</option>
-                          {selectedUserBusinessProfiles.map((profile) => (
-                            <option key={profile._id} value={profile._id}>
-                              {profile.name}
+                ) : (
+                  <>
+                 
+                    <select className='secondary-select common-input' value={selectedUserId} onChange={handleChange}>
+                      <option value=''>Select a user</option>
+                      {apiData.map((item) => {
+                        if (item.businessProfiles && item.businessProfiles.length > 0) {
+                          return (
+                            <option key={item._id} value={item._id}>
+                              {item.name}
                             </option>
-                          ))}
-                        </select>
-                      )}
-                      {selectedBusinessProfile && ( // Conditionally render the "Publish" button
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+                    {selectedUserBusinessProfiles.length > 0 && (
+                      <select className='secondary-select w-full common-input mb-2 mt-2' value={selectedBusinessProfile} onChange={handleBusinessProfileChange}>
+                        <option value=''>Select a business</option>
+                        {selectedUserBusinessProfiles.map((profile) => (
+                          <option key={profile._id} value={profile._id}>
+                            {profile.name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    {selectedBusinessProfile && ( // Conditionally render the "Publish" button
                       <PrimaryButton inputClass={"min-w-[140px]"} onClick={handlepublish}>
                         <span>Publish</span>
                       </PrimaryButton>
-                      )}
-                    </>
-                  
-                  )}
+                    )}
+                  </>
+
+                )}
               </div>
             </div>
           </div>

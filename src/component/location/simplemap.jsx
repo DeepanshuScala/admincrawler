@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleMap, Marker, useGoogleMap } from '@react-google-maps/api';
-import GoogleMapLayout from '../../common/layout/GoogleMapLayout';
 
 const center = {
   lat: 40.7128, // Example latitude
@@ -36,18 +35,16 @@ const SimpleMap = ({ mapContainerStyle, googleMapsApiKey, lat, lng }) => {
   }, [lat, lng]);
 
   return (
-    // <LoadScriptNext googleMapsApiKey={googleMapsApiKey}>
-      <GoogleMapLayout>
+
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          center={center}
+          center={{ lat, lng }}
           zoom={10} // You can adjust the zoom level here
         >
           {/* AdvancedMarker is now a child of GoogleMap */}
-          <AdvancedMarker position={center} />
+          <AdvancedMarker position={{ lat, lng }} />
         </GoogleMap>
-      </GoogleMapLayout>
-    // </LoadScriptNext>
+    
   );
 };
 
