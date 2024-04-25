@@ -188,7 +188,7 @@ const Step3 = ({
     handleStep(INC);
     setLoading(false);
   };
-
+  const isCoordinatesAvailable = eventData && eventData.coordinates && eventData.coordinates.lat != null && eventData.coordinates.lng != null;
   return (
     <>
       <div className="mb-3">
@@ -215,18 +215,26 @@ const Step3 = ({
           Add Location
         </FullButton> */}
       </div>
-      <span>{eventData.address}</span>
-      <LoadScriptNext  googleMapsApiKey={googleMapsApiKey}>
-        <SimpleMap mapContainerStyle={{ width: '100%', height: '400px' }} googleMapsApiKey={googleMapsApiKey} lat={eventData.coordinates.lat} lng={eventData.coordinates.lng} />
-        {/* <GoogleMap
-          mapContainerStyle={{ width: '100%', height: '400px' }}
-          center={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
-          zoom={10}
-        />
-        <Marker // Add this Marker component
-            position={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
-        /> */}
-      </LoadScriptNext>
+      {isCoordinatesAvailable? (
+        <>
+          <span>{eventData.address}</span>
+          <LoadScriptNext  googleMapsApiKey={googleMapsApiKey}>
+            <SimpleMap mapContainerStyle={{ width: '100%', height: '400px' }} googleMapsApiKey={googleMapsApiKey} lat={eventData.coordinates.lat} lng={eventData.coordinates.lng} />
+            {/* <GoogleMap
+              mapContainerStyle={{ width: '100%', height: '400px' }}
+              center={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
+              zoom={10}
+            />
+            <Marker // Add this Marker component
+                position={{ lat: eventData.coordinates.lat, lng: eventData.coordinates.lng }}
+            /> */}
+          </LoadScriptNext>
+        </>
+        ):
+        (
+          <div>No map data available</div>
+        )
+      }
       <div className="flex justify-end items-center mt-3 pb-3 gap-2">
         <div>
           {currentStep === 1 ? (
