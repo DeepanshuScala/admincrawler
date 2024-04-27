@@ -55,7 +55,7 @@ const IOSSwitch = styled((props) => (
 }));
 
 
-const PrimarySwitch = ({ onChange, defaultValue, labelText ,name}) => {
+const PrimarySwitch = ({ onChange, defaultValue, labelText ,name,checked}) => {
 
   return (
     <div>
@@ -63,7 +63,7 @@ const PrimarySwitch = ({ onChange, defaultValue, labelText ,name}) => {
         labelPlacement="start"
         sx={{ color: "#7C7C72",width:'100%',marginLeft:'0',justifyContent:'space-between', }}
         control={
-          <IOSSwitch name={name}
+          <IOSSwitch name={name} checked={checked}
             sx={{ m: 1 }}
             defaultChecked={defaultValue}
             onChange={onChange}

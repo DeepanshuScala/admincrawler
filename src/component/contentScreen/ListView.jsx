@@ -27,7 +27,7 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
       sortable: true,
       selector: row => <>
         <span className="flex items-center gap-2">
-          <span className="font-semibold">{row.title}</span>
+          <span className="font-semibold">{row.title}{ !row.coordinates && <span style={{ color: 'red', marginLeft: '10px' }}>!</span> }</span>
         </span>
       </>,
       minWidth: '150px',
@@ -38,6 +38,12 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
       sortable: true,
       selector: row => <>
         <div className="flex items-center gap-1">
+          {row.path && <Link className="inline-block px-2 py-2 bg-[#03B4BF] text-white font-bold text-center rounded-lg hover:bg-[#029aa9] focus:outline-none focus:ring-2 focus:ring-[#029aa9] focus:ring-opacity-50" to={row.path} target="_blank">View</Link>}
+          <Link to={`/dashboard/content/${row._id}`}>
+            <Eyeicon
+              className="cursor-pointer p-1.5 rounded-xl w-[30px] h-[30px] text-white bg-[#009CA6]"
+            />
+          </Link>
           <Editicon color="text-white"
             onClick={() => setEventId(row)}
             className="cursor-pointer p-1.5 rounded-xl w-[30px] h-[30px] text-white bg-[#74746E]"
@@ -48,7 +54,7 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
           />
         </div>
       </>,
-      width: '120px',
+      width: '200px',
     },
     {
       name: 'Dates',
@@ -139,6 +145,9 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
     }
   }
 
+  const isRowSelectable = (row) => {
+    return !row.coordinates;
+  };  
 
   return (
     <div class="md:mx-10 mx-5">
@@ -146,7 +155,7 @@ export default function ListView({loading, fetchAllEvents,setEventId, data, dele
             inputClass="max-w-[150px] bg-[#03B4BF] text-white font-bold" onClick={handlepublish} >
             <span>Publish Event</span>
       </PrimaryButton>
-      <DataTable theme="solarized" columns={columns} data={data} customStyles={customStyles} onSelectedRowsChange={handleRowSelected} selectableRows />
+      <DataTable theme="solarized" columns={columns} data={data} customStyles={customStyles} onSelectedRowsChange={handleRowSelected} selectableRowDisabled={isRowSelectable} selectableRows />
       <EventDetailsModal
         fetchAllEvents={fetchAllEvents}
         open={isEventDetailsModalOpen}

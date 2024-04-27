@@ -16,6 +16,7 @@ const RoleProtectedRoute = React.lazy(() => import("./RoleProtectedRoute"));
 
 export const PATHS = {
   dashboard: "/dashboard",
+  content: "/dashboard/content",
   crawled: "/dashboard/crawled",
   published: "/dashboard/published",
   login: "/login"
@@ -42,6 +43,10 @@ export const routeslist = [
       {
         path: "crawled",
         element: <Crawled />,
+      },
+      {
+        path: "content/:id",
+        element: <ViewEvent />,
       },
       {
         path: "published",

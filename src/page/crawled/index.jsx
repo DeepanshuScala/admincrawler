@@ -25,6 +25,7 @@ const Crawled = () => {
   const [cardView, SetCardView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalpages, setPages] = useState(1);
 
   const [data, setData] = useState();
   const [eventId, setEventId] = useState("");
@@ -36,8 +37,10 @@ const Crawled = () => {
       if (res.data) {
         const datares = res.data?.events;
         console.log(datares)
+        setPages(res.data.pages)
         if (!query || query === '') {
           setData(datares);
+          
         } else {
           const filteredData = datares.filter((item) => item.title.toLowerCase() === query.toLowerCase());
           setData(filteredData);
@@ -120,7 +123,7 @@ const Crawled = () => {
 
   useEffect(() => {
     fetchAllEvents();
-  },[currentPage, itemsPerPage]);
+  },[currentPage, itemsPerPage,totalpages]);
 
   useEffect(() => {
     const searchP = searchParams.get("view") || "";
@@ -160,7 +163,7 @@ const Crawled = () => {
   const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
-
+  
   return (
     <>
       <ContentHeader/>
@@ -175,7 +178,7 @@ const Crawled = () => {
             />
             <div className="mb-5" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', padding: '0 20px' }}>
               <Pagination
-                count={10} // Assuming 'data.total' holds the total count of items
+                count={totalpages} // Assuming 'data.total' holds the total count of items
                 page={currentPage}
                 onChange={handleChangePage}
                 color="primary"

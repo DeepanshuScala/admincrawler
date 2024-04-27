@@ -22,6 +22,10 @@ const Step4 = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [ageGroups, setAgeGroups] = useState([]);
+  const [promotInpShow, setpromotInpShow] = useState(false);
+  const [bookInpShow, setbookInpShow] = useState(false);
+  const [termConInpShow, settermConInpShow] = useState(false);
+  const [partCOstInpShow, setpartCOstInpShow] = useState(false);
   const validationSchema = Yup.object().shape({
     ageGroupsAllowed: Yup.array().min(1, "Minimum 1 age group is required."),
     targetGenders: Yup.array().min(1, "Minimum 1 gender is required."),
@@ -51,7 +55,7 @@ const Step4 = ({
     promotionCode: "",
     isFree: false,
     participationCost: " ",
-    bookingUrl: "",
+    path: "",
     notifyFollowers: true,
     RSVP: true,
     termsAndConditions: "",
@@ -70,11 +74,18 @@ const Step4 = ({
         promotionCode: eventData?.promotionCode,
         isFree: eventData?.isFree,
         participationCost: eventData?.participationCost,
-        bookingUrl: eventData?.bookingUrl,
+        path: eventData?.path,
         notifyFollowers: eventData?.notifyFollowers,
         RSVP: eventData?.RSVP,
         termsAndConditions: eventData?.termsAndConditions,
       });
+
+      if(eventData?.path !==''){
+        setbookInpShow(true);
+      }
+      if (eventData?.participationCost !== "") {
+        setpartCOstInpShow(true)
+      }
     }
   }, [eventData]);
 
@@ -142,11 +153,6 @@ const Step4 = ({
       ]);
     }
   };
-
-  const [promotInpShow, setpromotInpShow] = useState(false);
-  const [bookInpShow, setbookInpShow] = useState(false);
-  const [termConInpShow, settermConInpShow] = useState(false);
-  const [partCOstInpShow, setpartCOstInpShow] = useState(false);
 
   return (
     <>
@@ -267,7 +273,7 @@ const Step4 = ({
             <div className="flex items-center justify-between">
               <h1 className="text-black font-bold">Booking URL</h1>
 
-              <PrimarySwitch
+              <PrimarySwitch checked={bookInpShow}
                 onChange={(val) => {
                   setbookInpShow(!bookInpShow);
                 }}
@@ -283,16 +289,16 @@ const Step4 = ({
                   <div>
                     <input
                       type="text"
-                      name="bookingUrl"
+                      name="path"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="model-input placeholder:text-[#7C7C72] placeholder:text-sm !border-[#DDDDD7] border-none "
                       placeholder="https://yourlinkhere.com"
-                      value={values?.bookingUrl}
+                      value={values?.path}
                     />
                   </div>
                   <span className="font-semibold text-sm text-red-600">
-                    <ErrorMessage name="bookingUrl" />
+                    <ErrorMessage name="path" />
                   </span>
                 </> : null
             }
@@ -380,7 +386,7 @@ const Step4 = ({
             <div className="flex items-center justify-between">
               <h1 className="text-black font-bold">Participation cost</h1>
 
-              <PrimarySwitch
+              <PrimarySwitch checked={partCOstInpShow}
                 onChange={(val) => {
                   setpartCOstInpShow(!partCOstInpShow);
                 }}
