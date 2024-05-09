@@ -1,10 +1,12 @@
 import { Add } from "@mui/icons-material";
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
+import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 
 const AddTimeWidget = ({
   checkDate,
   handleAddInterval,
+  handleRemoveInterval,
   dates,
   multipleTime,
   onTimeChange,
@@ -12,17 +14,18 @@ const AddTimeWidget = ({
   // const onChange = () => {
 
   // }
-  // console.log(dates?.[Object.keys(dates)[0]], "1233454312345432");
-
+  // console.log(checkDate,'cehck')
+    console.log(dates, "1233454312345432");
+ // const [datesList, setDatesList] = useState(dates?.[Object.keys(dates)[0]]);
   const getValue = (key, index) => {
-    console.log(key, index)
+    //console.log(key, index)
     if (multipleTime) {
       return dates?.[checkDate]?.[index][key];
     } else {
       return dates?.[Object.keys(dates)[0]][index][key];
     }
   };
-console.log(dates)
+  
   return (
     <div className="mb-3">
       <div
@@ -72,13 +75,23 @@ console.log(dates)
                       value={getValue("endTime", index)}
                     />
                   </div>
+                  {
+                    index > 0 &&
+                    <span>
+                      <RemoveCircleOutlineOutlinedIcon
+                        className="!text-base cursor-pointer hover:text-[#555]"
+                        onClick={() => handleRemoveInterval(checkDate,index)}
+                      />
+                    </span>
+                  }
+                  
                 </div>
               );
             })}
           </>
         ) : (
           <>
-          {console.log(dates, ">>>>>>>>>>>> dates 123")}
+          {/*console.log(dates, ">>>>>>>>>>>> dates 123")*/}
             {dates?.[Object.keys(dates)[0]]?.map((dateObj, index) => {
               return (
                 <div
@@ -112,19 +125,30 @@ console.log(dates)
                       value={getValue("endTime", index)}
                     />
                   </div>
+                  { index > 0 &&
+                    <span>
+                      <RemoveCircleOutlineOutlinedIcon
+                        className="!text-base cursor-pointer hover:text-[#555]"
+                        onClick={() => handleRemoveInterval(checkDate,index)}
+                      />
+                    </span>
+                  }
                 </div>
               );
             })}
           </>
         )}
-
-        <div
-          className="w-full flex justify-center items-center gap-2 text-xs h-[48px] text-center mt-3 rounded-md p-2 bg-[#D3E9EB] text-[#009CA6] font-semibold cursor-pointer"
-          onClick={() => handleAddInterval(checkDate)}
-        >
-          <Add className="text-[#009CA6] w-5 h-5 " />
-          Add Interval
-        </div>
+        {
+          dates && Object.keys(dates).length > 0 && (
+          <div
+            className="w-full flex justify-center items-center gap-2 text-xs h-[48px] text-center mt-3 rounded-md p-2 bg-[#D3E9EB] text-[#009CA6] font-semibold cursor-pointer"
+              onClick={() => handleAddInterval(checkDate)}
+            >
+              <Add className="text-[#009CA6] w-5 h-5 " />
+              Add Interval
+            </div>
+          )
+        }
       </div>
     </div>
   );

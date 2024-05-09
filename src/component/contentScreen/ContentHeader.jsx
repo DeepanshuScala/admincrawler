@@ -63,7 +63,7 @@ const handleSubmit = async(event) =>{
       <div className="my-4 md:mx-12 mx-5">
         <div className="flex justify-between items-center mb-4">
           <Text className="text-[24px] mob:text-[16px] font-bold">
-            Crawled Events
+            Imported Content
           </Text>
         </div>
 

@@ -23,7 +23,7 @@ export const sidepanalLinks = [
     module: MODULE.USER,
   },
   {
-    Title: "Crawled",
+    Title: "Imported Content",
     Link: "/dashboard/crawled",
     icons: Content,
     acticon: ActContent,

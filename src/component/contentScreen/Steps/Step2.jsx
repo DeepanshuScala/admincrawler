@@ -27,28 +27,60 @@ const Step2 = ({
   const [dates, setDates] = useState();
 
   const [loading, setLoading] = useState(false);
+  const FormatListNumbered = (timeevent) => {
+    const tempstartdate = new Date(timeevent);
+    const tempformattedTime = `${tempstartdate.getUTCHours().toString().padStart(2, '0')}:${tempstartdate.getUTCMinutes().toString().padStart(2, '0')}`
+    return tempformattedTime;
+  }
 
   
+  const appendvalue = (data) => {
+    let obj = {...dates};
+    console.log(obj,'obejct')
+    let dateValues = [];
+      data?.forEach((rawDate) => {
+        
+        dateValues.push(rawDate);
+        if (obj[rawDate.format()]) {
+        } else {
+            obj[rawDate.format()] = [
+              {
+                startTime: "00:00",
+                endTime: "23:59",
+              },
+            ];
+          
+        }
+      });
+      setValues(dateValues);
+      // Remove dates from obj that don't exist in data
+      Object.keys(obj).forEach((key) => {
+        if (!data.some((rawDate) => rawDate.format() === key)) {
+          delete obj[key];
+        }
+      });
+      setDates(obj);
+  }
+  /*
+    useEffect(() => {
+      let obj = {};
+      
+      values?.forEach((rawDate) => {
+      
+        if (obj[rawDate.format()]) {
+        } else {
+          obj[rawDate.format()] = [
+            {
+              startTime: "00:00",
+              endTime: "23:05",
+            },
+          ];
+        }
+      });
 
-  useEffect(() => {
-    let obj = {};
-    
-    values?.forEach((rawDate) => {
-     
-      if (obj[rawDate.format()]) {
-      } else {
-        obj[rawDate.format()] = [
-          {
-            startTime: "00:00",
-            endTime: "23:05",
-          },
-        ];
-      }
-    });
-
-    setDates(obj);
-  }, [values]);
-
+      setDates(obj);
+    }, [values]);
+  */
   useEffect(() => {
     console.log('de dewd ew')
     if (eventData?.schedule?.length) {
@@ -56,14 +88,24 @@ const Step2 = ({
       let eventDateObj = {};
       let dateValues = [];
       eventData?.schedule?.forEach((eventDate) => {
-        eventDateObj = {
-          ...eventDateObj,
-          [eventDate?.date]: eventDate?.durations,
-        };
         const date = new DateObject({
           date: eventDate?.date,
           format: "DD-MM-YYYY",
         });
+
+        // Create an array of all durations for this event date
+        const durations = eventDate?.durations?.map((duration) => ({
+            startTime: FormatListNumbered(duration.startTime),
+            endTime: FormatListNumbered(duration.endTime),
+        })) || [];
+
+        // Add the array of durations to the event date object
+        eventDateObj = {
+            ...eventDateObj,
+            [date]: durations,
+        };
+
+        // Collect the date value for further use
         dateValues.push(date);
       });
       console.log('here the condole')
@@ -78,16 +120,30 @@ const Step2 = ({
     if (multipleTime) {
       let obj = { ...dates };
       console.log(obj[date], ">>>>111www");
-      obj[date] = [...obj[date], { startTime: "00:00", endTime: "23:05" }];
+      obj[date] = [...obj[date], { startTime: "00:00", endTime: "23:59" }];
       setDates(obj);
     } else {
       // will add one duration object to all dates
       let obj = { ...dates };
       for (const key in obj) {
-        obj[key] = [...obj[key], { startTime: "00:00", endTime: "23:05" }];
+        obj[key] = [...obj[key], { startTime: "00:00", endTime: "23:59" }];
       }
       setDates(obj);
     }
+  };
+
+  const handleRemoveInterval = (date, index) => {
+    let obj = { ...dates };
+    if (multipleTime) {
+        // Remove interval for a specific date
+        obj[date] = obj[date].filter((_, i) => i !== index);
+    } else {
+        // Remove interval for all dates
+        for (const key in obj) {
+            obj[key] = obj[key].filter((_, i) => i !== index);
+        }
+    }
+    setDates(obj);
   };
 
   const onTimeChange = (value, index, timekey, date) => {
@@ -106,7 +162,7 @@ const Step2 = ({
   };
 
   const handleChange = (event) => {
-    setValues(event);
+    appendvalue(event);
   };
 
   const handleSubmit = async () => {
@@ -183,6 +239,7 @@ const Step2 = ({
               headerOrder={["MONTH_YEAR", "LEFT_BUTTON", "RIGHT_BUTTON"]}
               monthYearSeparator=" "
               onChange={handleChange}
+              minDate={new Date()}
               // format="ddd, D MMMM, YYYY"
               format="DD-MM-YYYY"
             />
@@ -196,12 +253,16 @@ const Step2 = ({
 
             </div>
             <div className="w-1/2 flex-grow">
-              <PrimarySwitch className="" checked={multipleTime}
+              {
+                values.length > 0 &&
+                <PrimarySwitch className="" checked={multipleTime}
                 onChange={(value) => {
                   setMultipleTime(value.target.checked);
+                 // console.log(value.target.checked)
                 }}
                 labelText="Specify for each day"
               />
+              }
             </div>
 
           </div>
@@ -215,6 +276,7 @@ const Step2 = ({
                     dates={dates}
                     onTimeChange={onTimeChange}
                     handleAddInterval={handleAddInterval}
+                    handleRemoveInterval={handleRemoveInterval}
                   />
                 );
               })}
@@ -225,6 +287,7 @@ const Step2 = ({
               dates={dates}
               handleAddInterval={handleAddInterval}
               onTimeChange={onTimeChange}
+              handleRemoveInterval={handleRemoveInterval}
             />
           )}
         </div>
