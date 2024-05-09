@@ -20,7 +20,7 @@ const Step2 = ({
   fetchEventData,
   eventData,
 }) => {
-  console.log(eventData)
+  
   const [values, setValues] = useState([new DateObject()]);
   const [range, setRange] = useState(false);
   const [multipleTime, setMultipleTime] = useState(false);
@@ -28,13 +28,13 @@ const Step2 = ({
 
   const [loading, setLoading] = useState(false);
 
-  console.log(dates, ">>>>>>>>>>>>>> dates123456", values);
+  
 
   useEffect(() => {
     let obj = {};
-    console.log(values, "Values  runned 12345");
+    
     values?.forEach((rawDate) => {
-      console.log(rawDate.format(), ">>>>> formatted valuess");
+     
       if (obj[rawDate.format()]) {
       } else {
         obj[rawDate.format()] = [
@@ -50,6 +50,7 @@ const Step2 = ({
   }, [values]);
 
   useEffect(() => {
+    console.log('de dewd ew')
     if (eventData?.schedule?.length) {
       // setValues();
       let eventDateObj = {};
@@ -65,6 +66,8 @@ const Step2 = ({
         });
         dateValues.push(date);
       });
+      console.log('here the condole')
+      console.log(eventDateObj)
       setDates(eventDateObj);
       setValues(dateValues);
       setMultipleTime(eventData?.specifyForEachDay)
@@ -75,13 +78,13 @@ const Step2 = ({
     if (multipleTime) {
       let obj = { ...dates };
       console.log(obj[date], ">>>>111www");
-      obj[date] = [...obj[date], { startTime: "15:00", endTime: "18:00" }];
+      obj[date] = [...obj[date], { startTime: "00:00", endTime: "23:05" }];
       setDates(obj);
     } else {
       // will add one duration object to all dates
       let obj = { ...dates };
       for (const key in obj) {
-        obj[key] = [...obj[key], { startTime: "15:00", endTime: "18:00" }];
+        obj[key] = [...obj[key], { startTime: "00:00", endTime: "23:05" }];
       }
       setDates(obj);
     }
@@ -105,7 +108,6 @@ const Step2 = ({
   const handleChange = (event) => {
     setValues(event);
   };
-  // console.log(values, "?????????", range);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -144,7 +146,6 @@ const Step2 = ({
       fetchAllEvents();
       handleStep(INC);
     } else {
-      console.log(res, ">>>>>>");
       enqueueSnackbar(
         res.error?.message
           ? formatErrorMessage(res.error?.message)

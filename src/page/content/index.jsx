@@ -17,11 +17,15 @@ import { formatErrorMessage } from "../../utils/formatErrorMessage";
 import ContentLoader from "../../common/Loader/contentLoader";
 import { useSearchParams } from "react-router-dom";
 import ListViewpublished from "../../component/contentScreen/ListViewpublished";
+import { FormControl, InputLabel, MenuItem, Pagination, Select } from "@mui/material";
 
 const Content = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [cardView, SetCardView] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalpages, setPages] = useState(1);
 
   const [data, setData] = useState();
   const [eventId, setEventId] = useState("");
@@ -29,9 +33,10 @@ const Content = () => {
   const fetchAllEvents = async (query) => {
     setLoading(true);
     try {
-      const res = await getData("event/crawled?status=published");
+      const res = await getData(`event/crawled?status=published&page=${currentPage}&limit=${itemsPerPage}`);
       if (res.data) {
         const datares = res.data?.events;
+        setPages(res.data.pages)
         if (!query || query === '') {
           setData(datares);
         } else {
@@ -79,6 +84,14 @@ const Content = () => {
     });
   };
 
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleChangeItemsPerPage = (event) => {
+    setItemsPerPage(event.target.value);
+    setCurrentPage(1); // Reset to first page after changing items per page
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewSearchQuery, setviewSearchQuery] = useState();
@@ -108,7 +121,7 @@ const Content = () => {
 
   useEffect(() => {
     fetchAllEvents();
-  }, []);
+  },[currentPage, itemsPerPage,totalpages]);
 
   useEffect(() => {
     const searchP = searchParams.get("view") || "";
@@ -168,6 +181,43 @@ const Content = () => {
               setEventId={setEventId}
               deleteEvent={deleteEvent}
             />
+            <div className="mb-5" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', padding: '0 20px' }}>
+              <Pagination
+                count={totalpages} // Assuming 'data.total' holds the total count of items
+                page={currentPage}
+                onChange={handleChangePage}
+                color="primary"
+                sx={{
+                  '.MuiPaginationItem-page': {
+                    'backgroundColor':'#009CA6', // Change to your desired color
+                    '&:hover': {
+                      backgroundColor: 'black', // Hover effect for regular items
+                      'color': 'white',
+                    },
+                  },
+                  '.Mui-selected': {
+                    'color': 'white', // Active pagination number color
+                    'backgroundColor':'black !important',
+                    '&:hover': {
+                      'backgroundColor': '#009CA6', // Hover effect for regular items
+                    },
+                  },
+                }}
+              />
+              <FormControl style={{ minWidth: 120 }}>
+              <InputLabel id="items-per-page-label">Items Per Page</InputLabel>
+              <Select
+                labelId="items-per-page-label"
+                value={itemsPerPage}
+                label="Items Per Page"
+                onChange={handleChangeItemsPerPage}
+              >
+                {[10, 20, 30, 50].map((size) => (
+                  <MenuItem key={size} value={size}>{size}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            </div>
         </>
       ) : (
         <ContentLoader />

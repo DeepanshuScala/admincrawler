@@ -289,7 +289,10 @@ input[type="text"]:not(:placeholder-shown)~.input-text {
   justify-content: center;
 }
 
-.rmdp-day.rmdp-today span,
+.rmdp-day.rmdp-today span{
+  background-color: #fff !important;
+  color: #000 !important;
+}
 .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
   background-color: #009CA6 !important;
   border-radius: 4px !important;
