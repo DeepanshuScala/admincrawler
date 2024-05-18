@@ -38,7 +38,7 @@ const Step1 = ({ handleStep, handleClose, currentStep }) => {
       <div className=" mt-5">
         <div className="mb-3">
           <h1 className="text-base font-bold mb-3">Subscription type</h1>
-          <div className="flex ededede items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <button
               className={`${isyearClick
                 ? "bg-[#009CA6] text-white"
